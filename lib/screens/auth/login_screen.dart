@@ -3,9 +3,9 @@
 import 'package:disiplean_clone/screens/auth/register_screen.dart';
 import 'package:disiplean_clone/screens/home/home_screen.dart';
 import 'package:disiplean_clone/services/authentication_service.dart';
-import 'package:disiplean_clone/widgets/reusable_button_widget.dart';
-import 'package:disiplean_clone/widgets/reusable_snackbar.dart';
-import 'package:disiplean_clone/widgets/reusable_text_input_widget.dart';
+import 'package:disiplean_clone/widgets/reusable/reusable_button_widget.dart';
+import 'package:disiplean_clone/widgets/reusable/reusable_snackbar.dart';
+import 'package:disiplean_clone/widgets/reusable/reusable_text_input_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -28,12 +28,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (response['success']) {
-      ReusableSnackBar.show(context, response['message']);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+      ReusableSnackBar.show(context, response['message']);
     } else {
       ReusableSnackBar.show(context, response['message']);
-    }
-    
+    }  
   }
 
   @override

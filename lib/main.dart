@@ -1,6 +1,8 @@
+import 'package:disiplean_clone/providers/user_provider.dart';
 import 'package:disiplean_clone/screens/auth/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -16,10 +18,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Disiplean Clone",
-      home: LandingScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "Disiplean Clone",
+        home: LandingScreen(),
+      ),
     );
   }
 }

@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "1096699310462",
-    "project_id": "disiplean-clone",
-    "storage_bucket": "disiplean-clone.appspot.com"
+    "project_number": "282437708807",
+    "firebase_url": "https://disiplean-clone-92856-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "disiplean-clone-92856",
+    "storage_bucket": "disiplean-clone-92856.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1096699310462:android:608c1bf67bd7e64e05832f",
+        "mobilesdk_app_id": "1:282437708807:android:4a7525a76a0c18494e4ea2",
         "android_client_info": {
           "package_name": "com.example.disiplean_clone"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCvHTLYkgiWOkY0VM5-pAoKhUeHwum_Nk0"
+          "current_key": "AIzaSyAMYlMq_OT_r3F8xFlDaaFnpCMvhJcdbXw"
         }
       ],
       "services": {

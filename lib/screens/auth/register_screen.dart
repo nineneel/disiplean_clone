@@ -3,9 +3,9 @@
 import 'package:disiplean_clone/screens/auth/login_screen.dart';
 import 'package:disiplean_clone/screens/home/home_screen.dart';
 import 'package:disiplean_clone/services/authentication_service.dart';
-import 'package:disiplean_clone/widgets/reusable_button_widget.dart';
-import 'package:disiplean_clone/widgets/reusable_snackbar.dart';
-import 'package:disiplean_clone/widgets/reusable_text_input_widget.dart';
+import 'package:disiplean_clone/widgets/reusable/reusable_button_widget.dart';
+import 'package:disiplean_clone/widgets/reusable/reusable_snackbar.dart';
+import 'package:disiplean_clone/widgets/reusable/reusable_text_input_widget.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -30,8 +30,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
 
     if (response['success']) {
-      ReusableSnackBar.show(context, response['message']);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen())).whenComplete(
+        () => ReusableSnackBar.show(context, response['message']),
+      );
     } else {
       ReusableSnackBar.show(context, response['message']);
     }
@@ -48,50 +49,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 26),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ReusableTextInputWidget(
-              label: "Nama",
-              keyboardType: TextInputType.name,
-              controller: _controllerName,
-            ),
-            const SizedBox(height: 20),
-            ReusableTextInputWidget(
-              label: "Email",
-              keyboardType: TextInputType.emailAddress,
-              controller: _controllerEmail,
-            ),
-            const SizedBox(height: 20),
-            ReusableTextInputWidget(
-              label: "Password",
-              keyboardType: TextInputType.visiblePassword,
-              controller: _controllerPassword,
-            ),
-            const SizedBox(height: 32),
-            ReusableButtonWidget(
-              label: "Daftar",
-              onPressed: () async {
-                _registerProccess();
-              },
-            ),
-            const SizedBox(height: 16),
-            ReusableButtonWidget(
-              label: "Masuk",
-              type: ButtonType.secondary,
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ),
-                );
-              },
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 26),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ReusableTextInputWidget(
+                label: "Nama",
+                keyboardType: TextInputType.name,
+                controller: _controllerName,
+              ),
+              const SizedBox(height: 20),
+              ReusableTextInputWidget(
+                label: "Email",
+                keyboardType: TextInputType.emailAddress,
+                controller: _controllerEmail,
+              ),
+              const SizedBox(height: 20),
+              ReusableTextInputWidget(
+                label: "Password",
+                keyboardType: TextInputType.visiblePassword,
+                controller: _controllerPassword,
+              ),
+              const SizedBox(height: 32),
+              ReusableButtonWidget(
+                label: "Daftar",
+                onPressed: () async {
+                  _registerProccess();
+                },
+              ),
+              const SizedBox(height: 16),
+              ReusableButtonWidget(
+                label: "Masuk",
+                type: ButtonType.secondary,
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

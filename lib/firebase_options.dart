@@ -44,37 +44,41 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBZYK_sbcE9viK9ABrXbUoGCazhK_IF4mY',
-    appId: '1:1096699310462:web:3f58cd5584116dc405832f',
-    messagingSenderId: '1096699310462',
-    projectId: 'disiplean-clone',
-    authDomain: 'disiplean-clone.firebaseapp.com',
-    storageBucket: 'disiplean-clone.appspot.com',
+    apiKey: 'AIzaSyDPKmFhCDgGUioO8xorVpdBVqeimCA_Zao',
+    appId: '1:282437708807:web:05150745fc9c93294e4ea2',
+    messagingSenderId: '282437708807',
+    projectId: 'disiplean-clone-92856',
+    authDomain: 'disiplean-clone-92856.firebaseapp.com',
+    databaseURL: 'https://disiplean-clone-92856-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'disiplean-clone-92856.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCvHTLYkgiWOkY0VM5-pAoKhUeHwum_Nk0',
-    appId: '1:1096699310462:android:608c1bf67bd7e64e05832f',
-    messagingSenderId: '1096699310462',
-    projectId: 'disiplean-clone',
-    storageBucket: 'disiplean-clone.appspot.com',
+    apiKey: 'AIzaSyAMYlMq_OT_r3F8xFlDaaFnpCMvhJcdbXw',
+    appId: '1:282437708807:android:4a7525a76a0c18494e4ea2',
+    messagingSenderId: '282437708807',
+    projectId: 'disiplean-clone-92856',
+    databaseURL: 'https://disiplean-clone-92856-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'disiplean-clone-92856.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA2m2tD2c4CnkcgDYUMUr9kP4izxNmU-5I',
-    appId: '1:1096699310462:ios:b7c93b33dfac84de05832f',
-    messagingSenderId: '1096699310462',
-    projectId: 'disiplean-clone',
-    storageBucket: 'disiplean-clone.appspot.com',
+    apiKey: 'AIzaSyCH99gAEd-8zjoJCy46IRiBAa0sJXQc6cI',
+    appId: '1:282437708807:ios:05af80e0974e64a74e4ea2',
+    messagingSenderId: '282437708807',
+    projectId: 'disiplean-clone-92856',
+    databaseURL: 'https://disiplean-clone-92856-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'disiplean-clone-92856.appspot.com',
     iosBundleId: 'com.example.disipleanClone',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyA2m2tD2c4CnkcgDYUMUr9kP4izxNmU-5I',
-    appId: '1:1096699310462:ios:fde090ec8f954ec905832f',
-    messagingSenderId: '1096699310462',
-    projectId: 'disiplean-clone',
-    storageBucket: 'disiplean-clone.appspot.com',
+    apiKey: 'AIzaSyCH99gAEd-8zjoJCy46IRiBAa0sJXQc6cI',
+    appId: '1:282437708807:ios:0f8b88863893b0df4e4ea2',
+    messagingSenderId: '282437708807',
+    projectId: 'disiplean-clone-92856',
+    databaseURL: 'https://disiplean-clone-92856-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'disiplean-clone-92856.appspot.com',
     iosBundleId: 'com.example.disipleanClone.RunnerTests',
   );
 }

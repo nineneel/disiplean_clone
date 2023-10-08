@@ -1,3 +1,4 @@
+import 'package:disiplean_clone/databases/user_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticationService {
@@ -32,9 +33,9 @@ class AuthenticationService {
       await FirebaseAuth.instance.signOut();
       response['message'] = "Logout Success";
       return response;
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       response['success'] = true;
-      response['message'] = e.message;
+      response['message'] = "$e";
       return response;
     }
   }
@@ -45,16 +46,26 @@ class AuthenticationService {
     required String password,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
+      Map registerUserResponse = await UserDatabase.registerUser(
+        name: name,
+        email: userCredential.user?.email!,
+        uid: userCredential.user?.uid,
+      );
+
+      if (!registerUserResponse['success']) {
+        throw registerUserResponse['message'];
+      }
+
       response['message'] = "Sign Up Sucess";
       return response;
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       response['success'] = false;
-      response['message'] = e.message;
+      response['message'] = '$e';
       return response;
     }
   }

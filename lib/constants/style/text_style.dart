@@ -9,6 +9,11 @@ TextStyle mdNormalTextStyle = GoogleFonts.inter(
   fontSize: 14,
 );
 
+TextStyle mdMediumTextStyle = GoogleFonts.inter(
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+);
+
 TextStyle lgNormalTextStyle = GoogleFonts.inter(
   fontSize: 16,
 );
@@ -22,6 +27,17 @@ TextStyle largeTextStyle = GoogleFonts.inter(
   fontWeight: FontWeight.w700,
 );
 
-TextStyle mdBoldTextStyle = mdNormalTextStyle.copyWith(
+TextStyle mdBoldTextStyle = GoogleFonts.inter(
+  fontSize: 14,
   fontWeight: FontWeight.w700,
+);
+
+TextStyle lgBoldTextStyle = GoogleFonts.inter(
+  fontSize: 16,
+  fontWeight: FontWeight.w700,
+);
+
+TextStyle largeMediumTextStyle = GoogleFonts.inter(
+  fontSize: 20,
+  fontWeight: FontWeight.w600,
 );
