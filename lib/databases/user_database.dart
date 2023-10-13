@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:uuid/uuid.dart';
+// import 'package:uuid/uuid.dart';
 
 final FirebaseDatabase userRTDB = FirebaseDatabase.instanceFor(
   app: Firebase.app(),
@@ -12,7 +12,11 @@ class UserDatabase {
   //   return const Uuid().v1();
   // }
 
-  static Future<Map> registerUser({required String name, required String? email, required String? uid}) async {
+  static Future<Map> registerUser({
+    required String name,
+    required String? email,
+    required String? uid,
+  }) async {
     Map response = {
       'success': true,
       'message': "",
@@ -35,12 +39,12 @@ class UserDatabase {
 
       // Print response message
       response['message'] = 'New user added successfully';
-      return response;
     } catch (e) {
       response['success'] = false;
       response['message'] = "$e";
-      return response;
     }
+
+    return response;
   }
 
   static Future<Map> getUserData({required String uid}) async {

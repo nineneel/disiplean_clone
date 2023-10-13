@@ -3,6 +3,8 @@
 import 'package:disiplean_clone/constants/style/color.dart';
 import 'package:disiplean_clone/constants/style/text_style.dart';
 import 'package:disiplean_clone/providers/user_provider.dart';
+import 'package:disiplean_clone/screens/audit_setting/audit_setting_screen.dart';
+import 'package:disiplean_clone/screens/auth/landing_screen.dart';
 import 'package:disiplean_clone/screens/auth/login_screen.dart';
 import 'package:disiplean_clone/services/authentication_service.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_app_bar.dart';
@@ -31,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Map response = await _authenticationService.logout();
 
     if (response['success']) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LandingScreen()), (route) => false);
       ReusableSnackBar.show(context, response['message']);
     } else {
       ReusableSnackBar.show(context, response['message']);
@@ -94,7 +96,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 16),
             ReusableListTile(
               title: "Pengaturan Audit",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AuditSettingScreen()));
+              },
               leading: Icon(
                 Icons.settings,
                 color: darkColor,

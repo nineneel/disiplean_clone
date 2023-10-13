@@ -28,8 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (response['success']) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
-      ReusableSnackBar.show(context, response['message']);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen())).whenComplete(
+        () => ReusableSnackBar.show(context, response['message']),
+      );
     } else {
       ReusableSnackBar.show(context, response['message']);
     }  
@@ -45,44 +46,48 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 26),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ReusableTextInputWidget(
-              label: "Email",
-              keyboardType: TextInputType.name,
-              controller: _controllerEmail,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 26),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ReusableTextInputWidget(
+                  label: "Email",
+                  keyboardType: TextInputType.name,
+                  controller: _controllerEmail,
+                ),
+                const SizedBox(height: 20),
+                ReusableTextInputWidget(
+                  label: "Password",
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: _controllerPassword,
+                ),
+                const SizedBox(height: 32),
+                ReusableButtonWidget(
+                  label: "Login",
+                  onPressed: () {
+                    _loginProccess();
+                  },
+                ),
+                const SizedBox(height: 16),
+                ReusableButtonWidget(
+                  label: "Daftar",
+                  type: ButtonType.secondary,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RegisterScreen(),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            ReusableTextInputWidget(
-              label: "Password",
-              keyboardType: TextInputType.visiblePassword,
-              controller: _controllerPassword,
-            ),
-            const SizedBox(height: 32),
-            ReusableButtonWidget(
-              label: "Login",
-              onPressed: () {
-                _loginProccess();
-              },
-            ),
-            const SizedBox(height: 16),
-            ReusableButtonWidget(
-              label: "Daftar",
-              type: ButtonType.secondary,
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RegisterScreen(),
-                  ),
-                );
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );

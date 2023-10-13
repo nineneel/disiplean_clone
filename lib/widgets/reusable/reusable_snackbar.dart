@@ -6,10 +6,10 @@ class ReusableSnackBar {
   static show(BuildContext context, String text) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: greyColor,
+        backgroundColor: accentColor,
         content: Text(
           text,
-          style: mdBoldTextStyle.copyWith(color: darkColor),
+          style: mdBoldTextStyle.copyWith(color: ligthColor),
         ),
       ),
     );

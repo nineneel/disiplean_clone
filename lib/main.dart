@@ -1,3 +1,4 @@
+import 'package:disiplean_clone/providers/setting_provider.dart';
 import 'package:disiplean_clone/providers/user_provider.dart';
 import 'package:disiplean_clone/screens/auth/landing_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class MainApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => SettingProvider()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

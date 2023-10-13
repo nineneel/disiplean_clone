@@ -49,51 +49,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 26),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ReusableTextInputWidget(
-                label: "Nama",
-                keyboardType: TextInputType.name,
-                controller: _controllerName,
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ReusableTextInputWidget(
+                    label: "Nama",
+                    keyboardType: TextInputType.name,
+                    controller: _controllerName,
+                  ),
+                  const SizedBox(height: 20),
+                  ReusableTextInputWidget(
+                    label: "Email",
+                    keyboardType: TextInputType.emailAddress,
+                    controller: _controllerEmail,
+                  ),
+                  const SizedBox(height: 20),
+                  ReusableTextInputWidget(
+                    label: "Password",
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: _controllerPassword,
+                  ),
+                  const SizedBox(height: 32),
+                  ReusableButtonWidget(
+                    label: "Daftar",
+                    onPressed: () async {
+                      _registerProccess();
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ReusableButtonWidget(
+                    label: "Masuk",
+                    type: ButtonType.secondary,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-              const SizedBox(height: 20),
-              ReusableTextInputWidget(
-                label: "Email",
-                keyboardType: TextInputType.emailAddress,
-                controller: _controllerEmail,
-              ),
-              const SizedBox(height: 20),
-              ReusableTextInputWidget(
-                label: "Password",
-                keyboardType: TextInputType.visiblePassword,
-                controller: _controllerPassword,
-              ),
-              const SizedBox(height: 32),
-              ReusableButtonWidget(
-                label: "Daftar",
-                onPressed: () async {
-                  _registerProccess();
-                },
-              ),
-              const SizedBox(height: 16),
-              ReusableButtonWidget(
-                label: "Masuk",
-                type: ButtonType.secondary,
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                  );
-                },
-              ),
-            ],
+            ),
           ),
         ),
       ),

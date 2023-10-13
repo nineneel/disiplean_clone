@@ -1,5 +1,6 @@
 import 'package:disiplean_clone/constants/style/color.dart';
 import 'package:disiplean_clone/constants/style/text_style.dart';
+import 'package:disiplean_clone/providers/setting_provider.dart';
 import 'package:disiplean_clone/providers/user_provider.dart';
 import 'package:disiplean_clone/screens/profile/profile_screen.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_box_widget.dart';
@@ -18,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     Future(() {
       Provider.of<UserProvider>(context, listen: false).setUserData();
+      Provider.of<SettingProvider>(context, listen: false).setSettingData();
     });
 
     super.initState();
