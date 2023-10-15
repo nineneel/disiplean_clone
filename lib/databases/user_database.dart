@@ -24,7 +24,7 @@ class UserDatabase {
 
     try {
       // Generate new user data
-      String newUserId = 'user-$uid';
+      String newUserId = 'user_$uid';
       Map<String, Object> newUser = {
         newUserId: {
           'name': name,
@@ -47,16 +47,23 @@ class UserDatabase {
     return response;
   }
 
-  static Future<Map> getUserData({required String uid}) async {
-    try {
-      DatabaseReference userRef = userRTDB.ref();
-      DatabaseEvent userEvent = await userRef.child('users').child('user-$uid').once();
+  static Stream getUserDataStream({required String userUid}) {
+    DatabaseReference userRef = userRTDB.ref();
+    Stream userDataStream = userRef.child('users').child('user_$userUid').onValue;
 
-      Map userData = userEvent.snapshot.value as Map;
+    return userDataStream;
+  }
 
-      return userData;
-    } catch (e) {
-      return {};
-    }
+  static Stream getAllUserDataStream() {
+    DatabaseReference userRef = userRTDB.ref();
+    Stream allUserDataStream = userRef.child('users').onValue;
+    return allUserDataStream;
+  }
+
+  static Stream getAuditorInvitationStream({required String userUid}) {
+    DatabaseReference userRef = userRTDB.ref();
+    Stream userAuditorInvitationStream = userRef.child('users').child("user_$userUid").child("auditor_invitation").onValue;
+
+    return userAuditorInvitationStream;
   }
 }

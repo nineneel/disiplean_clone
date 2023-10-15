@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
         () => ReusableSnackBar.show(context, response['message']),
       );
     } else {
-      ReusableSnackBar.show(context, response['message']);
+      ReusableSnackBar.show(context, response['message'], isSuccess: false);
     }  
   }
 

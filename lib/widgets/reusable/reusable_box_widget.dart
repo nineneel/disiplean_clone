@@ -17,11 +17,12 @@ class ReusableBoxWidget extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: double.infinity, minHeight: 0),
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              border: Border.all(
-                width: 1,
-                color: darkColor,
-              )),
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            border: Border.all(
+              width: 1,
+              color: darkColor,
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

@@ -35,9 +35,6 @@ class SettingProvider with ChangeNotifier, DiagnosticableTreeMixin {
         notifyListeners();
       }
     });
-
-    // Update provider
-    notifyListeners();
   }
 
   void disposeProvider() {

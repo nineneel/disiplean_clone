@@ -13,8 +13,6 @@ import 'package:disiplean_clone/widgets/reusable/reusable_button_widget.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_list_tile.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +27,7 @@ class _AuditScheduleScreenState extends State<AuditScheduleScreen> {
   // Week Index for tracking week by number
   int? _weekIndex;
   DateTime? _auditSchedule;
+  // bool _isAuditScheduleChange = false;
 
   // List of week on a month
   final List<String> _weeks = [
@@ -41,7 +40,7 @@ class _AuditScheduleScreenState extends State<AuditScheduleScreen> {
 
   // Function to convert _weekIndex to Schedule
   /// set date base on selected week
-  DateTime getSelectedStartDate(int week) {
+  DateTime _getSelectedStartDate(int week) {
     /// get current date
     final DateTime now = DateTime.now();
 
@@ -67,19 +66,25 @@ class _AuditScheduleScreenState extends State<AuditScheduleScreen> {
     return selectedStartTimeOfWeek;
   }
 
+  // Function to set the button is disable or not
+  bool _isAuditScheduleChange() {
+    int initialWeekIndex = Provider.of<SettingProvider>(context, listen: true).settingData['audit_setting']['schedule']['week'] ?? -1;
+    return _weekIndex != initialWeekIndex;
+  }
+
   // Function to get audit schedule
-  void getAuditSchedule() {
+  void _getAuditSchedule() {
     // print("DEBUG: ${Provider.of<SettingProvider>(context, listen: false).settingData['audit_setting']['schedule']['week']}");
     setState(() {
       _weekIndex = Provider.of<SettingProvider>(context, listen: false).settingData['audit_setting']['schedule']['week'] ?? -1;
-      _auditSchedule = getSelectedStartDate(_weekIndex!);
+      _auditSchedule = _getSelectedStartDate(_weekIndex!);
     });
   }
 
   // Function to save audit schedule
-  void saveAuditSchedule() async {
+  void _saveAuditSchedule() async {
     // Get `createdBy` from user provider uid
-    final String createdBy = "user-${Provider.of<UserProvider>(context, listen: false).userData['uid']}";
+    final String createdBy = Provider.of<UserProvider>(context, listen: false).userData['key'];
 
     // Save Audit Schedule
     Map response = await SettingDatabase.saveAuditSchedule(
@@ -87,15 +92,43 @@ class _AuditScheduleScreenState extends State<AuditScheduleScreen> {
       createdBy: createdBy,
     );
 
+    // Show reusable snackbar
     ReusableSnackBar.show(context, response['message']);
+  }
+
+  // Function to show
+  void _showSelectWeekBottomSheet() {
+    ReusableBottomSheet.buildModalBottom(
+      context: context,
+      title: "Pilih Minggu",
+      child: ListView.builder(
+        itemCount: _weeks.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: ReusableListTile(
+              title: _weeks[index],
+              height: 50,
+              fontSizeType: ListTileFontSize.md,
+              backgroundType: ListTileBackground.dark,
+              onTap: () {
+                setState(() {
+                  _weekIndex = index;
+                  _auditSchedule = _getSelectedStartDate(_weekIndex!);
+                });
+                Navigator.pop(context);
+              },
+            ),
+          );
+        },
+      ),
+    );
   }
 
   @override
   void initState() {
-    Future(() {
-      // call get audit schedule
-      getAuditSchedule();
-    });
+    _getAuditSchedule();
     super.initState();
   }
 
@@ -136,38 +169,15 @@ class _AuditScheduleScreenState extends State<AuditScheduleScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ReusableListTile(
+                    height: 45,
                     title: _weekIndex == null ? "Pilih minggu..." : "Minggu ${_weeks[_weekIndex!]}",
+                    fontSizeType: ListTileFontSize.md,
                     trailing: Icon(
                       Icons.keyboard_arrow_right_rounded,
-                      size: 32,
+                      size: 28,
                       color: darkColor,
                     ),
-                    onTap: () {
-                      ReusableBottomSheet.buildModalBottom(
-                        context: context,
-                        title: "Pilih Minggu",
-                        child: ListView.builder(
-                          itemCount: _weeks.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 6),
-                              child: ReusableListTile(
-                                title: _weeks[index],
-                                backgroundType: ListTileBackgroundType.dark,
-                                onTap: () {
-                                  setState(() {
-                                    _weekIndex = index;
-                                    _auditSchedule = getSelectedStartDate(_weekIndex!);
-                                  });
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
+                    onTap: _showSelectWeekBottomSheet,
                   ),
                 ],
               ),
@@ -180,7 +190,8 @@ class _AuditScheduleScreenState extends State<AuditScheduleScreen> {
         child: ReusableButtonWidget(
           label: "Simpan",
           type: ButtonType.primary,
-          onPressed: saveAuditSchedule,
+          onPressed: _saveAuditSchedule,
+          disabled: !_isAuditScheduleChange(),
         ),
       ),
     );

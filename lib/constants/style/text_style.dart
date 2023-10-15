@@ -10,6 +10,11 @@ TextStyle smMediumTextStyle = GoogleFonts.inter(
   fontSize: 12,
 );
 
+TextStyle smBoldTextStyle = GoogleFonts.inter(
+  fontWeight: FontWeight.w700,
+  fontSize: 12,
+);
+
 TextStyle mdNormalTextStyle = GoogleFonts.inter(
   fontSize: 14,
 );

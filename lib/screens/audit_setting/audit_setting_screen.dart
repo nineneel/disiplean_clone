@@ -1,12 +1,9 @@
 import 'package:disiplean_clone/constants/style/color.dart';
-import 'package:disiplean_clone/databases/setting_database.dart';
-import 'package:disiplean_clone/providers/user_provider.dart';
 import 'package:disiplean_clone/screens/audit_setting/audit_schedule/audit_schedule_screen.dart';
+import 'package:disiplean_clone/screens/audit_setting/auditor/auditor_screen.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_app_bar.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_list_tile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AuditSettingScreen extends StatelessWidget {
   const AuditSettingScreen({super.key});
@@ -21,7 +18,7 @@ class AuditSettingScreen extends StatelessWidget {
             children: [
               ReusableListTile(
                 title: "Tanggal Audit",
-                backgroundType: ListTileBackgroundType.dark,
+                backgroundType: ListTileBackground.dark,
                 height: 64,
                 leading: Container(
                   padding: const EdgeInsets.all(8),
@@ -42,7 +39,7 @@ class AuditSettingScreen extends StatelessWidget {
               const SizedBox(height: 24),
               ReusableListTile(
                 title: "Auditor",
-                backgroundType: ListTileBackgroundType.dark,
+                backgroundType: ListTileBackground.dark,
                 height: 64,
                 leading: Container(
                   padding: const EdgeInsets.all(8),
@@ -56,12 +53,14 @@ class AuditSettingScreen extends StatelessWidget {
                     size: 28,
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const AuditorScreen()));
+                },
               ),
               const SizedBox(height: 24),
               ReusableListTile(
                 title: "Ketentuan Penilaian Area",
-                backgroundType: ListTileBackgroundType.dark,
+                backgroundType: ListTileBackground.dark,
                 height: 64,
                 leading: Container(
                   padding: const EdgeInsets.all(8),

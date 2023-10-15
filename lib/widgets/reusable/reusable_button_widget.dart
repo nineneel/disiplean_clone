@@ -14,15 +14,18 @@ class ReusableButtonWidget extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.type = ButtonType.primary,
+    this.disabled = false,
   });
 
   final String label;
   final ButtonType type;
+  final bool disabled;
   final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      
       style: ElevatedButton.styleFrom(
         minimumSize: const Size.fromHeight(50),
         shape: RoundedRectangleBorder(
@@ -36,10 +39,12 @@ class ReusableButtonWidget extends StatelessWidget {
           width: 1,
         ),
       ),
-      onPressed: onPressed,
+      onPressed: disabled ? null : onPressed,
       child: Text(
         label,
-        style: mdBoldTextStyle,
+        style: mdBoldTextStyle.copyWith(
+          color: disabled ? shadowColor : darkColor,
+        ),
         textAlign: TextAlign.center,
       ),
     );

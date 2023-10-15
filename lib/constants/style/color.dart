@@ -6,3 +6,4 @@ Color greyColor = const Color(0xFFD9D9D9);
 Color shadowColor = const Color(0xFFA4A4A4);
 Color backgroundColor = const Color(0xFFF5F5F5);
 Color accentColor = const Color(0xFF68ADEC);
+Color errorColor = const Color(0xFFEC6868);

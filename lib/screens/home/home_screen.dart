@@ -1,5 +1,6 @@
 import 'package:disiplean_clone/constants/style/color.dart';
 import 'package:disiplean_clone/constants/style/text_style.dart';
+import 'package:disiplean_clone/providers/action_bar_provider.dart';
 import 'package:disiplean_clone/providers/setting_provider.dart';
 import 'package:disiplean_clone/providers/user_provider.dart';
 import 'package:disiplean_clone/screens/profile/profile_screen.dart';
@@ -15,10 +16,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Map _actionBarWidgets = {};
+
+  void _getActionBarData() async {
+    // get action bar
+    _actionBarWidgets = Provider.of<ActionBarProvider>(context, listen: true).actionBarWidgets;
+  }
+
   @override
   void initState() {
     Future(() {
+      // Set all provider
       Provider.of<UserProvider>(context, listen: false).setUserData();
+      Provider.of<UserProvider>(context, listen: false).setAllUserData();
+      Provider.of<UserProvider>(context, listen: false).setAuditorInvitationData(context);
       Provider.of<SettingProvider>(context, listen: false).setSettingData();
     });
 
@@ -27,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _getActionBarData();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -50,14 +62,21 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(width: 10),
         ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 26, vertical: 26),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 26),
         child: ReusableBoxWidget(
           title: "Action Bar",
-          child: Text(
-            "Tidak ada aksi yang perlu dilakukan!",
-            textAlign: TextAlign.left,
-          ),
+          child: _actionBarWidgets.isNotEmpty
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _actionBarWidgets.length,
+                  itemBuilder: (context, index) => _actionBarWidgets[_actionBarWidgets.keys.toList()[index]],
+                )
+              : Text(
+                  "Tidak ada aksi yang perlu dilakukan!",
+                  textAlign: TextAlign.left,
+                  style: mdBoldTextStyle,
+                ),
         ),
       ),
     );

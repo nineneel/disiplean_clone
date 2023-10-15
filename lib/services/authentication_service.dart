@@ -19,6 +19,7 @@ class AuthenticationService {
         password: password,
       );
 
+      response['success'] = true;
       response['message'] = "Login Sucess";
       return response;
     } on FirebaseAuthException catch (e) {
@@ -61,6 +62,7 @@ class AuthenticationService {
         throw registerUserResponse['message'];
       }
 
+      response['success'] = true;
       response['message'] = "Sign Up Sucess";
       return response;
     } catch (e) {

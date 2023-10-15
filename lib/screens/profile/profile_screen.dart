@@ -5,7 +5,6 @@ import 'package:disiplean_clone/constants/style/text_style.dart';
 import 'package:disiplean_clone/providers/user_provider.dart';
 import 'package:disiplean_clone/screens/audit_setting/audit_setting_screen.dart';
 import 'package:disiplean_clone/screens/auth/landing_screen.dart';
-import 'package:disiplean_clone/screens/auth/login_screen.dart';
 import 'package:disiplean_clone/services/authentication_service.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_app_bar.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_box_widget.dart';
@@ -97,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ReusableListTile(
               title: "Pengaturan Audit",
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AuditSettingScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AuditSettingScreen()));
               },
               leading: Icon(
                 Icons.settings,

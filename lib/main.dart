@@ -1,3 +1,4 @@
+import 'package:disiplean_clone/providers/action_bar_provider.dart';
 import 'package:disiplean_clone/providers/setting_provider.dart';
 import 'package:disiplean_clone/providers/user_provider.dart';
 import 'package:disiplean_clone/screens/auth/landing_screen.dart';
@@ -23,6 +24,7 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => SettingProvider()),
+        ChangeNotifierProvider(create: (context) => ActionBarProvider()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
