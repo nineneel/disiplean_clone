@@ -11,6 +11,7 @@ import 'package:disiplean_clone/widgets/reusable/reusable_bottom_sheet.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_box_widget.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_button_widget.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_list_tile.dart';
+import 'package:disiplean_clone/widgets/reusable/reusable_scaffold.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -134,8 +135,8 @@ class _AuditScheduleScreenState extends State<AuditScheduleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const ReusableAppBar(title: "Tanggal Audit"),
+    return ReusableScaffold(
+      appBarTitle: "Tanggal Audit",
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 26),
         child: Column(
@@ -185,14 +186,11 @@ class _AuditScheduleScreenState extends State<AuditScheduleScreen> {
           ],
         ),
       ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.all(26),
-        child: ReusableButtonWidget(
-          label: "Simpan",
-          type: ButtonType.primary,
-          onPressed: _saveAuditSchedule,
-          disabled: !_isAuditScheduleChange(),
-        ),
+      buttonBottomSheet: ReusableButtonWidget(
+        label: "Simpan",
+        type: ButtonType.primary,
+        onPressed: _saveAuditSchedule,
+        disabled: !_isAuditScheduleChange(),
       ),
     );
   }

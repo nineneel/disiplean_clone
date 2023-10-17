@@ -27,6 +27,7 @@ class ReusableListTile extends StatelessWidget {
     this.trailing,
     this.type = ListTileType.primary,
     this.fontSizeType,
+    this.titleFontWeight,
     this.backgroundType,
     this.height = 60,
     this.titleColor,
@@ -38,6 +39,7 @@ class ReusableListTile extends StatelessWidget {
   final Widget? trailing;
   final Function()? onTap;
   final Color? titleColor;
+  final FontWeight? titleFontWeight;
   final ListTileType type;
   final ListTileFontSize? fontSizeType;
   final ListTileBackground? backgroundType;
@@ -48,8 +50,11 @@ class ReusableListTile extends StatelessWidget {
         : fontSizeType == ListTileFontSize.md
             ? mdBoldTextStyle
             : lgBoldTextStyle;
-            
-    return titleTextStyle.copyWith(color: titleColor ?? darkColor);
+
+    return titleTextStyle.copyWith(
+      color: titleColor ?? darkColor,
+      fontWeight: titleFontWeight,
+    );
   }
 
   @override

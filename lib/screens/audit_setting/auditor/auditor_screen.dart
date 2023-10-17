@@ -10,6 +10,7 @@ import 'package:disiplean_clone/widgets/reusable/reusable_bottom_sheet.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_box_widget.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_button_widget.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_list_tile.dart';
+import 'package:disiplean_clone/widgets/reusable/reusable_scaffold.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -196,70 +197,63 @@ class _AuditorScreenState extends State<AuditorScreen> {
     // Call get all user data function
     _getAllUserData();
 
-    return Scaffold(
-      appBar: const ReusableAppBar(title: "Auditor"),
+    return ReusableScaffold(
+      // appBar: const ReusableAppBar(title: "Auditor"),
+      appBarTitle: "Auditor",
       body: Padding(
-        padding: const EdgeInsets.all(26),
+        padding: const EdgeInsets.fromLTRB(26, 26, 26, 92),
         child: ReusableBoxWidget(
           title: "Daftar Auditor",
-          child: Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.62,
-                child: _auditorDataKeys.isNotEmpty
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _auditorDataKeys.length,
-                        itemBuilder: (context, index) {
-                          Map userData = _allUserData[_auditorDataKeys[index]];
-                          Map userAuditorData = _auditorData[_auditorDataKeys[index]];
-                          String userKey = "user_${userData['uid']}";
-                          String userName = userData['name'];
-                          String userStatus = userAuditorData['status'];
-                          return ReusableListTile(
-                            title: userName,
-                            titleColor: userStatus == 'pending' ? shadowColor : darkColor,
-                            height: 50,
-                            leading: Icon(
-                              Icons.account_circle,
-                              size: 36,
-                              color: userStatus == 'pending' ? shadowColor : darkColor,
-                            ),
-                            type: ListTileType.secondary,
-                            trailing: IconButton(
-                              onPressed: () {
-                                _showMoreBottomSheet(userKey);
-                              },
-                              icon: Icon(
-                                Icons.more_vert,
-                                size: 28,
-                                color: darkColor,
-                              ),
-                              padding: const EdgeInsets.all(0),
-                              splashRadius: 24,
-                            ),
-                          );
-                        },
-                      )
-                    : Center(
-                        child: Text(
-                          "Belum ada auditor!",
-                          textAlign: TextAlign.center,
-                          style: mdBoldTextStyle,
+          child: _auditorDataKeys.isNotEmpty
+              ? Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _auditorDataKeys.length,
+                    itemBuilder: (context, index) {
+                      Map userData = _allUserData[_auditorDataKeys[index]];
+                      Map userAuditorData = _auditorData[_auditorDataKeys[index]];
+                      String userKey = "user_${userData['uid']}";
+                      String userName = userData['name'];
+                      String userStatus = userAuditorData['status'];
+                      return ReusableListTile(
+                        title: userName,
+                        titleColor: userStatus == 'pending' ? shadowColor : darkColor,
+                        height: 50,
+                        leading: Icon(
+                          Icons.account_circle,
+                          size: 36,
+                          color: userStatus == 'pending' ? shadowColor : darkColor,
                         ),
-                      ),
-              ),
-            ],
-          ),
+                        type: ListTileType.secondary,
+                        trailing: IconButton(
+                          onPressed: () {
+                            _showMoreBottomSheet(userKey);
+                          },
+                          icon: Icon(
+                            Icons.more_vert,
+                            size: 28,
+                            color: darkColor,
+                          ),
+                          padding: const EdgeInsets.all(0),
+                          splashRadius: 24,
+                        ),
+                      );
+                    },
+                  ),
+              )
+              : Center(
+                  child: Text(
+                    "Belum ada auditor!",
+                    textAlign: TextAlign.center,
+                    style: mdBoldTextStyle,
+                  ),
+                ),
         ),
       ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.all(26),
-        child: ReusableButtonWidget(
-          label: "Tambahkan Auditor",
-          type: ButtonType.primary,
-          onPressed: _showAddAuditorBottomSheet,
-        ),
+      buttonBottomSheet: ReusableButtonWidget(
+        label: "Tambahkan Auditor",
+        type: ButtonType.primary,
+        onPressed: _showAddAuditorBottomSheet,
       ),
     );
   }

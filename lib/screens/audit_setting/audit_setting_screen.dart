@@ -1,4 +1,5 @@
 import 'package:disiplean_clone/constants/style/color.dart';
+import 'package:disiplean_clone/screens/audit_setting/audit_provision/audit_provision_screen.dart';
 import 'package:disiplean_clone/screens/audit_setting/audit_schedule/audit_schedule_screen.dart';
 import 'package:disiplean_clone/screens/audit_setting/auditor/auditor_screen.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_app_bar.dart';
@@ -74,7 +75,9 @@ class AuditSettingScreen extends StatelessWidget {
                     size: 28,
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const AuditProvisionScreen()));
+                },
               ),
             ],
           ),

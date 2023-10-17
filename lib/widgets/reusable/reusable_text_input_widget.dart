@@ -22,13 +22,15 @@ class ReusableTextInputWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: mdBoldTextStyle),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
           obscureText: keyboardType == TextInputType.visiblePassword ? true : false,
-          cursorColor: darkColor,
+          cursorColor: darkColor, 
           decoration: InputDecoration(
+            isDense: true,
+            contentPadding:const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             labelText: "Masukkan $label",
             labelStyle: mdNormalTextStyle,
             focusColor: greyColor,

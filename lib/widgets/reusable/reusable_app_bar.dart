@@ -17,8 +17,8 @@ class ReusableAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: 64,
       leading: IconButton(
         icon: Icon(
-          Icons.arrow_back_ios_rounded,
-          size: 25,
+          Icons.chevron_left_rounded,
+          size: 36,
           color: darkColor,
         ),
         onPressed: () => Navigator.pop(context),

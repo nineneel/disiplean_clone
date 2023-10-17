@@ -11,23 +11,24 @@ enum ButtonType {
 class ReusableButtonWidget extends StatelessWidget {
   const ReusableButtonWidget({
     super.key,
-    required this.label,
     required this.onPressed,
+    this.label,
+    this.iconData,
     this.type = ButtonType.primary,
     this.disabled = false,
   });
 
-  final String label;
+  final String? label;
   final ButtonType type;
+  final IconData? iconData;
   final bool disabled;
   final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(50),
+        minimumSize: Size.fromHeight(type == ButtonType.small ? 35 : 50),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -40,13 +41,19 @@ class ReusableButtonWidget extends StatelessWidget {
         ),
       ),
       onPressed: disabled ? null : onPressed,
-      child: Text(
-        label,
-        style: mdBoldTextStyle.copyWith(
-          color: disabled ? shadowColor : darkColor,
-        ),
-        textAlign: TextAlign.center,
-      ),
+      child: label == null
+          ? Icon(
+              iconData,
+              color: darkColor,
+            )
+          : Text(
+              label ?? "-",
+              style: mdBoldTextStyle.copyWith(
+                color: disabled ? shadowColor : darkColor,
+                fontSize: type == ButtonType.small ? 12 : null,
+              ),
+              textAlign: TextAlign.center,
+            ),
     );
   }
 }

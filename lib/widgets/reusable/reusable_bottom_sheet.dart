@@ -24,51 +24,54 @@ class ReusableBottomSheet {
         ),
       ),
       builder: (BuildContext context) {
-        return ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.9,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 26),
-            // padding: EdgeInsets.zero,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Title
-                if (title != null) Text(title, style: lgBoldTextStyle),
-                if (title != null) const SizedBox(height: 26),
+        return Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.9,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 26),
+              // padding: EdgeInsets.zero,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Title
+                  if (title != null) Text(title, style: lgBoldTextStyle),
+                  if (title != null) const SizedBox(height: 26),
 
-                // Desc
-                if (desc != null)
-                  Text(
-                    desc,
-                    style: lgMediumTextStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                if (desc != null) const SizedBox(height: 24),
+                  // Desc
+                  if (desc != null)
+                    Text(
+                      desc,
+                      style: lgMediumTextStyle,
+                      textAlign: TextAlign.center,
+                    ),
+                  if (desc != null) const SizedBox(height: 24),
 
-                // Child
-                if (child != null) child,
-                // Flexible(child: child),
-                // Expanded(child: ListView.builder(itemCount: 120, shrinkWrap: true, itemBuilder: (context, index) => Text(index.toString()))),
+                  // Child
+                  if (child != null) child,
+                  // Flexible(child: child),
+                  // Expanded(child: ListView.builder(itemCount: 120, shrinkWrap: true, itemBuilder: (context, index) => Text(index.toString()))),
 
-                // Primary Button
-                if (primaryButtonLabel != null) const SizedBox(height: 24),
-                if (primaryButtonLabel != null)
-                  ReusableButtonWidget(
-                    label: primaryButtonLabel,
-                    onPressed: primaryButtonOnPress ?? () {},
-                  ),
+                  // Primary Button
+                  if (primaryButtonLabel != null) const SizedBox(height: 24),
+                  if (primaryButtonLabel != null)
+                    ReusableButtonWidget(
+                      label: primaryButtonLabel,
+                      onPressed: primaryButtonOnPress ?? () {},
+                    ),
 
-                // Secondary Button
-                if (secondaryButtonLabel != null) const SizedBox(height: 12),
-                if (secondaryButtonLabel != null)
-                  ReusableButtonWidget(
-                    label: secondaryButtonLabel,
-                    type: ButtonType.secondary,
-                    onPressed: secondaryButtonOnPress ?? () {},
-                  ),
-              ],
+                  // Secondary Button
+                  if (secondaryButtonLabel != null) const SizedBox(height: 12),
+                  if (secondaryButtonLabel != null)
+                    ReusableButtonWidget(
+                      label: secondaryButtonLabel,
+                      type: ButtonType.secondary,
+                      onPressed: secondaryButtonOnPress ?? () {},
+                    ),
+                ],
+              ),
             ),
           ),
         );

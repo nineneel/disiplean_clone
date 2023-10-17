@@ -5,6 +5,7 @@ import 'package:disiplean_clone/constants/style/text_style.dart';
 import 'package:disiplean_clone/providers/user_provider.dart';
 import 'package:disiplean_clone/screens/audit_setting/audit_setting_screen.dart';
 import 'package:disiplean_clone/screens/auth/landing_screen.dart';
+import 'package:disiplean_clone/screens/location_setting/location_setting_screen.dart';
 import 'package:disiplean_clone/services/authentication_service.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_app_bar.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_box_widget.dart';
@@ -80,16 +81,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 24),
             ReusableListTile(
               title: "Pengaturan Lokasi",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const LocationSettingScreen(isChildLocation: false,)));
+              },
               leading: Icon(
                 Icons.location_pin,
                 color: darkColor,
                 size: 35,
               ),
               trailing: Icon(
-                Icons.arrow_forward_ios_rounded,
+                Icons.chevron_right_rounded,
                 color: darkColor,
-                size: 24,
+                size: 32,
               ),
             ),
             const SizedBox(height: 16),
@@ -104,9 +107,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 size: 35,
               ),
               trailing: Icon(
-                Icons.arrow_forward_ios_rounded,
+                Icons.chevron_right_rounded,
                 color: darkColor,
-                size: 24,
+                size: 32,
               ),
             ),
           ],

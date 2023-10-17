@@ -16,7 +16,7 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen> {
   Future<void> _checkAuthenticatedUser() async {
     User? user = FirebaseAuth.instance.currentUser;
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 100));
 
     // Check current user, if there is a user redirect to home screen
     // If there is no user redirect to Login Screen
