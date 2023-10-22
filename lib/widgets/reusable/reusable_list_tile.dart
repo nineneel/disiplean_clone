@@ -25,12 +25,14 @@ class ReusableListTile extends StatelessWidget {
     this.onTap,
     this.leading,
     this.trailing,
+    this.underline = false,
     this.type = ListTileType.primary,
     this.fontSizeType,
     this.titleFontWeight,
     this.backgroundType,
     this.height = 60,
     this.titleColor,
+    this.textOverflow,
   });
 
   final String title;
@@ -40,9 +42,11 @@ class ReusableListTile extends StatelessWidget {
   final Function()? onTap;
   final Color? titleColor;
   final FontWeight? titleFontWeight;
+  final bool underline;
   final ListTileType type;
   final ListTileFontSize? fontSizeType;
   final ListTileBackground? backgroundType;
+  final TextOverflow? textOverflow;
 
   TextStyle getTitleTextStyle() {
     TextStyle titleTextStyle = fontSizeType == ListTileFontSize.sm
@@ -62,20 +66,28 @@ class ReusableListTile extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: underline ? null : BorderRadius.circular(8),
         color: backgroundType == ListTileBackground.dark ? greyColor : Colors.transparent,
-        border: backgroundType == ListTileBackground.dark || type == ListTileType.secondary
-            ? null
-            : Border.all(
-                width: 1,
-                color: darkColor,
-              ),
+        border: underline
+            ? Border(
+                bottom: BorderSide(
+                  width: 1,
+                  color: darkColor,
+                ),
+              )
+            : backgroundType == ListTileBackground.dark || type == ListTileType.secondary
+                ? null
+                : Border.all(
+                    width: 1,
+                    color: darkColor,
+                  ),
       ),
       child: Center(
         child: ListTile(
           leading: leading,
           title: Text(
             title,
+            overflow: textOverflow,
             style: getTitleTextStyle(),
           ),
           dense: true,

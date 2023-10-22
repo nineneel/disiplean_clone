@@ -40,6 +40,7 @@ class SettingDatabase {
       DatabaseReference settingRef = settingRTDB.ref();
       await settingRef.child('audit_setting').update(scheduleData);
 
+      response['success'] = true;
       response['message'] = "Save Audit Schdule Success!";
     } catch (e) {
       response['success'] = false;
@@ -318,6 +319,7 @@ class SettingDatabase {
     required String userKey,
     required String locationName,
     required bool isChildLocation,
+    required bool isNeedAudit,
     String? parentLocationId,
     int? totalParentChildLocations,
   }) async {
@@ -327,6 +329,9 @@ class SettingDatabase {
     };
 
     try {
+      if (locationName.isEmpty) {
+        throw "Location name cannot be empty!";
+      }
       DatabaseReference locationSettingRef = settingRTDB.ref("location_setting");
 
       String newLocationId = "location_${_generateNewId()}";
@@ -337,6 +342,7 @@ class SettingDatabase {
           "tag": "#0000", // TODO: Create Tag generator functions
           "created_by": userKey,
           "cerated_at": ServerValue.timestamp,
+          "need_audit": isNeedAudit,
         }
       };
 

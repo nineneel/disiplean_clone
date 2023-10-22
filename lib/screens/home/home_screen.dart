@@ -3,8 +3,10 @@ import 'package:disiplean_clone/constants/style/text_style.dart';
 import 'package:disiplean_clone/providers/action_bar_provider.dart';
 import 'package:disiplean_clone/providers/setting_provider.dart';
 import 'package:disiplean_clone/providers/user_provider.dart';
+import 'package:disiplean_clone/screens/auditing/auditing_screen.dart';
 import 'package:disiplean_clone/screens/profile/profile_screen.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_box_widget.dart';
+import 'package:disiplean_clone/widgets/reusable/reusable_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -65,19 +67,30 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 26),
         child: ReusableBoxWidget(
-          title: "Action Bar",
-          child: _actionBarWidgets.isNotEmpty
-              ? ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _actionBarWidgets.length,
-                  itemBuilder: (context, index) => _actionBarWidgets[_actionBarWidgets.keys.toList()[index]],
-                )
-              : Text(
-                  "Tidak ada aksi yang perlu dilakukan!",
-                  textAlign: TextAlign.left,
-                  style: mdBoldTextStyle,
+            title: "Action Bar",
+            child: Column(
+              children: [
+                _actionBarWidgets.isNotEmpty
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _actionBarWidgets.length,
+                        itemBuilder: (context, index) => _actionBarWidgets[_actionBarWidgets.keys.toList()[index]],
+                      )
+                    : Text(
+                        "Tidak ada aksi yang perlu dilakukan!",
+                        textAlign: TextAlign.left,
+                        style: mdBoldTextStyle,
+                      ),
+                const SizedBox(height: 10),
+                ReusableButtonWidget(
+                  label: "Test auditing",
+                  type: ButtonType.small,
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AuditingScreen(isChildLocation: false)));
+                  },
                 ),
-        ),
+              ],
+            )),
       ),
     );
   }

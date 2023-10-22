@@ -30,6 +30,7 @@ class LocationSettingScreen extends StatefulWidget {
 class _LocationSettingScreenState extends State<LocationSettingScreen> {
   // Controller
   final TextEditingController _locationNameController = TextEditingController(text: "");
+  bool _locationNeedAuditController = false;
   // initial data
   Map _allLocationData = {};
   // List _allLocationKeys = [];
@@ -67,12 +68,14 @@ class _LocationSettingScreenState extends State<LocationSettingScreen> {
         isChildLocation: widget.isChildLocation,
         parentLocationId: widget.currentLocationId,
         totalParentChildLocations: _allLocationChildKeys.length,
+        isNeedAudit: _locationNeedAuditController,
       );
 
       if (context.mounted) {
         if (response['success']) {
           // reset input data
           _locationNameController.text = "";
+          _locationNeedAuditController = false;
 
           Navigator.pop(context);
           ReusableSnackBar.show(context, response['message']);
@@ -85,21 +88,52 @@ class _LocationSettingScreenState extends State<LocationSettingScreen> {
 
     ReusableBottomSheet.buildModalBottom(
       context: context,
-      title:  widget.isChildLocation ? "Tambahkan Sub Lokasi" : "Tambahkan Lokasi",
-      child: Column(
-        children: [
-          ReusableTextInputWidget(
-            label: "Nama",
-            keyboardType: TextInputType.text,
-            controller: _locationNameController,
-          ),
-          const SizedBox(height: 36),
-          ReusableButtonWidget(
-            label: "Tambahkan",
-            onPressed: saveAuditSubProvision,
-          ),
-        ],
-      ),
+      title: widget.isChildLocation ? "Tambahkan Sub Lokasi" : "Tambahkan Lokasi",
+      child: StatefulBuilder(builder: (context, setStateBS) {
+        return Column(
+          children: [
+            ReusableTextInputWidget(
+              label: "Nama",
+              keyboardType: TextInputType.text,
+              controller: _locationNameController,
+            ),
+            const SizedBox(height: 24),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Perlu diaudit", style: mdBoldTextStyle),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _locationNeedAuditController,
+                      onChanged: (value) {
+                        _locationNeedAuditController = value!;
+                        setStateBS(() {});
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        "Area perlu diaudit!",
+                        style: mdMediumTextStyle,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 36),
+            ReusableButtonWidget(
+              label: "Tambahkan",
+              onPressed: saveAuditSubProvision,
+            ),
+          ],
+        );
+      }),
     );
   }
 
