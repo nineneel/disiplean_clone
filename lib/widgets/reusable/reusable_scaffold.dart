@@ -9,9 +9,11 @@ class ReusableScaffold extends StatelessWidget {
     required this.appBarTitle,
     required this.body,
     this.buttonBottomSheet,
+    this.color,
   });
 
   final String appBarTitle;
+  final bool? color;
   final Widget body;
   final ReusableButtonWidget? buttonBottomSheet;
 

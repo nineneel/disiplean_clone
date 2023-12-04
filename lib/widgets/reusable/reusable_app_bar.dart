@@ -11,7 +11,7 @@ class ReusableAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: greyColor,
+      backgroundColor: const Color(0xFF6D9773),
       foregroundColor: darkColor,
       elevation: 0,
       toolbarHeight: 64,
@@ -19,13 +19,15 @@ class ReusableAppBar extends StatelessWidget implements PreferredSizeWidget {
         icon: Icon(
           Icons.chevron_left_rounded,
           size: 36,
-          color: darkColor,
+          color: Colors.white,
         ),
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
         title,
-        style: largeTextStyle,
+        style: largeTextStyle.copyWith(
+          color: Colors.white
+        ),
       ),
       centerTitle: true,
     );

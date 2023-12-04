@@ -74,22 +74,24 @@ class _InputAuditScreenState extends State<InputAuditScreen> {
 
   void _saveAuditData() async {
     EasyLoading.show(status: "save audit result..");
-    Map response = await AuditDatabase.saveAuditData(
-      userKey: Provider.of<UserProvider>(context, listen: false).userData['key'],
-      auditData: _auditData,
-      locationId: widget.locationId,
-    );
+    // Map response = await AuditDatabase.saveAuditData(
+    //   userKey: Provider.of<UserProvider>(context, listen: false).userData['key'],
+    //   auditData: _auditData,
+    //   locationId: widget.locationId,
+    //   score: (_currentTotalProvision/_totalProvision) * 100,
+    //   locationImage: ,
+    // );
 
-    if (context.mounted) {
-      if (response['success']) {
-        EasyLoading.dismiss();
-        Navigator.pop(context);
-        ReusableSnackBar.show(context, response['message']);
-      } else {
-        EasyLoading.dismiss();
-        ReusableSnackBar.show(context, response['message'], isSuccess: false);
-      }
-    }
+    // if (context.mounted) {
+    //   if (response['success']) {
+    //     EasyLoading.dismiss();
+    //     Navigator.pop(context);
+    //     ReusableSnackBar.show(context, response['message']);
+    //   } else {
+    //     EasyLoading.dismiss();
+    //     ReusableSnackBar.show(context, response['message'], isSuccess: false);
+    //   }
+    // }
   }
 
   @override

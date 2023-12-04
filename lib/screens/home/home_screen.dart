@@ -4,6 +4,8 @@ import 'package:disiplean_clone/providers/action_bar_provider.dart';
 import 'package:disiplean_clone/providers/setting_provider.dart';
 import 'package:disiplean_clone/providers/user_provider.dart';
 import 'package:disiplean_clone/screens/auditing/auditing_screen.dart';
+import 'package:disiplean_clone/screens/auditing/select_audit_date.dart';
+import 'package:disiplean_clone/screens/leaderboard/leaderboard.dart';
 import 'package:disiplean_clone/screens/profile/profile_screen.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_box_widget.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_button_widget.dart';
@@ -52,6 +54,17 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const Leaderboard()));
+            },
+            icon: Icon(
+              Icons.leaderboard,
+              size: 35,
+              color: darkColor,
+            ),
+            splashRadius: 25,
+          ),
+          IconButton(
+            onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
             },
             icon: Icon(
@@ -87,6 +100,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   type: ButtonType.small,
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => AuditingScreen(isChildLocation: false)));
+                  },
+                ),
+                ReusableButtonWidget(
+                  label: "Mulai audit",
+                  type: ButtonType.small,
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectDateAudit()));
                   },
                 ),
               ],

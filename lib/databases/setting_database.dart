@@ -374,6 +374,27 @@ class SettingDatabase {
     return response;
   }
 
+  static Future<int?> getAuditWeek ({
+    required BuildContext context
+  }) async {
+    DatabaseReference scheduleRef = settingRTDB.ref();
+    DatabaseEvent auditWeek = await scheduleRef
+        .child("audit_setting")
+        .child("schedule")
+        .once();
+    print("auditWeek snapshot value: ${auditWeek.snapshot.value}");
+    if (auditWeek.snapshot.value != null) {
+      Map<dynamic, dynamic> auditSetting =
+      auditWeek.snapshot.value as Map<dynamic, dynamic>;
+      if (auditSetting.containsKey("week")) {
+        int week = auditSetting["week"] as int;
+        print('week = $week');
+        return week;
+      }
+      return null;
+    }
+
+  }
   // Getter
   static Stream getSettingDataStream() {
     DatabaseReference settingRef = settingRTDB.ref();

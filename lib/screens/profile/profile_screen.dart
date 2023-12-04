@@ -6,6 +6,7 @@ import 'package:disiplean_clone/providers/user_provider.dart';
 import 'package:disiplean_clone/screens/audit_setting/audit_setting_screen.dart';
 import 'package:disiplean_clone/screens/auth/landing_screen.dart';
 import 'package:disiplean_clone/screens/location_setting/location_setting_screen.dart';
+import 'package:disiplean_clone/screens/profile_setting/add_profile.dart';
 import 'package:disiplean_clone/services/authentication_service.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_app_bar.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_box_widget.dart';
@@ -103,6 +104,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
               leading: Icon(
                 Icons.settings,
+                color: darkColor,
+                size: 35,
+              ),
+              trailing: Icon(
+                Icons.chevron_right_rounded,
+                color: darkColor,
+                size: 32,
+              ),
+            ),
+            const SizedBox(height: 16),
+            ReusableListTile(
+              title: "Pengaturan Pengguna",
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddProfile()));
+              },
+              leading: Icon(
+                Icons.account_circle,
                 color: darkColor,
                 size: 35,
               ),
