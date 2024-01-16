@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:disiplean_clone/constants/style/color.dart';
 import 'package:disiplean_clone/constants/style/text_style.dart';
 import 'package:disiplean_clone/databases/setting_database.dart';
@@ -47,18 +49,16 @@ class _AuditProvisionScreenState extends State<AuditProvisionScreen> {
         iconDataProvision: _iconData,
       );
 
-      if (context.mounted) {
-        if (response['success']) {
-          // reset input data
-          _titleProvisionController.text = "";
-          _iconData = null;
+      if (response['success']) {
+        // reset input data
+        _titleProvisionController.text = "";
+        _iconData = null;
 
-          Navigator.pop(context);
-          ReusableSnackBar.show(context, response['message']);
-        } else {
-          Navigator.pop(context);
-          ReusableSnackBar.show(context, response['message'], isSuccess: false);
-        }
+        Navigator.pop(context);
+        ReusableSnackBar.show(context, response['message']);
+      } else {
+        Navigator.pop(context);
+        ReusableSnackBar.show(context, response['message'], isSuccess: false);
       }
     }
 
@@ -167,17 +167,15 @@ class _AuditProvisionScreenState extends State<AuditProvisionScreen> {
         titleSubProvision: _titleSubProvisionController.text,
       );
 
-      if (context.mounted) {
-        if (response['success']) {
-          // reset input data
-          _titleSubProvisionController.text = "";
+      if (response['success']) {
+        // reset input data
+        _titleSubProvisionController.text = "";
 
-          Navigator.pop(context);
-          ReusableSnackBar.show(context, response['message']);
-        } else {
-          Navigator.pop(context);
-          ReusableSnackBar.show(context, response['message'], isSuccess: false);
-        }
+        Navigator.pop(context);
+        ReusableSnackBar.show(context, response['message']);
+      } else {
+        Navigator.pop(context);
+        ReusableSnackBar.show(context, response['message'], isSuccess: false);
       }
     }
 
@@ -248,12 +246,18 @@ class _AuditProvisionScreenState extends State<AuditProvisionScreen> {
       appBarTitle: "Ketentuan Penilaian Audit",
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 70),
-        child: _provisionDataKey.isNotEmpty ? ListView.builder(
-          itemCount: _provisionDataKey.length,
-          itemBuilder: (context, index) {
-            return _buildProvisionBoxWidget(index);
-          },
-        ) : Center(child: Text("Belum ada ketentuan Audit!", style: lgBoldTextStyle,)),
+        child: _provisionDataKey.isNotEmpty
+            ? ListView.builder(
+                itemCount: _provisionDataKey.length,
+                itemBuilder: (context, index) {
+                  return _buildProvisionBoxWidget(index);
+                },
+              )
+            : Center(
+                child: Text(
+                "Belum ada ketentuan Audit!",
+                style: lgBoldTextStyle,
+              )),
       ),
       buttonBottomSheet: ReusableButtonWidget(
         label: "Tambah Ketentuan",

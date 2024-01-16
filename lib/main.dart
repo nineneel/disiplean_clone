@@ -26,7 +26,7 @@ void configLoading() {
     ..indicatorSize = 30.0
     ..radius = 4.0
     ..userInteractions = false
-    ..dismissOnTap = false;
+    ..dismissOnTap = true;
 }
 
 class MainApp extends StatelessWidget {

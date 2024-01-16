@@ -303,7 +303,12 @@ class SettingDatabase {
     try {
       DatabaseReference auditSettingRef = settingRTDB.ref('audit_setting');
 
-      await auditSettingRef.child("provisions").child(provisionId).child("sub_provision").child(subProvisionId).remove();
+      await auditSettingRef //
+          .child("provisions")
+          .child(provisionId)
+          .child("sub_provision")
+          .child(subProvisionId)
+          .remove();
 
       response['success'] = true;
       response['message'] = "Remove provision success!";

@@ -75,7 +75,6 @@ class _AuditScheduleScreenState extends State<AuditScheduleScreen> {
 
   // Function to get audit schedule
   void _getAuditSchedule() {
-    // print("DEBUG: ${Provider.of<SettingProvider>(context, listen: false).settingData['audit_setting']['schedule']['week']}");
     setState(() {
       _weekIndex = Provider.of<SettingProvider>(context, listen: false).settingData['audit_setting']['schedule']['week'] ?? -1;
       _auditSchedule = _getSelectedStartDate(_weekIndex!);

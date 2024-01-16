@@ -73,17 +73,25 @@ class _AuditorScreenState extends State<AuditorScreen> {
   void _showAddAuditorBottomSheet() {
     // Function to show confirmation add auditor bottom sheet
     void showConfirmationAddAuditorBottomSheet() {
-      // Create function to save invitation auditor
+      // Fungsi untuk untuk menyimpan undangan auditor ke dalam RTDB
       void saveInvitationAuditor() async {
+        // Mengambil User ID saat ini
+        String currentUserKey = Provider.of<UserProvider>(context, listen: false).userData['key'];
+
+        // Meyimpan undangan dengan User ID dan List dari Pengguna yang dipilih
+        // Dengan memanggil Fungsi Statik dari SettingDatabse yaitu saveInvitationAuditor
         Map response = await SettingDatabase.saveInvitationAuditor(
-          currentUserKey: Provider.of<UserProvider>(context, listen: false).userData['key'],
+          currentUserKey: currentUserKey,
           newAuditorKeys: _selectedUserKeys,
         );
 
+        // Memeriksa hasil dari proses penyimpanan
         if (response['success']) {
+          // Jika berhasil, hilangkan bottom sheet dan tampilkan pesan berhasil
           Navigator.pop(context);
           ReusableSnackBar.show(context, response['message']);
         } else {
+          // Jika gagal, tampilkan pesan eror menyimpan
           ReusableSnackBar.show(context, response['message'], isSuccess: false);
         }
       }
@@ -198,7 +206,6 @@ class _AuditorScreenState extends State<AuditorScreen> {
     _getAllUserData();
 
     return ReusableScaffold(
-      // appBar: const ReusableAppBar(title: "Auditor"),
       appBarTitle: "Auditor",
       body: Padding(
         padding: const EdgeInsets.fromLTRB(26, 26, 26, 92),
@@ -206,7 +213,7 @@ class _AuditorScreenState extends State<AuditorScreen> {
           title: "Daftar Auditor",
           child: _auditorDataKeys.isNotEmpty
               ? Expanded(
-                child: ListView.builder(
+                  child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: _auditorDataKeys.length,
                     itemBuilder: (context, index) {
@@ -240,7 +247,7 @@ class _AuditorScreenState extends State<AuditorScreen> {
                       );
                     },
                   ),
-              )
+                )
               : Center(
                   child: Text(
                     "Belum ada auditor!",
