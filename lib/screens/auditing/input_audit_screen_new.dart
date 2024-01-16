@@ -5,6 +5,7 @@ import 'package:disiplean_clone/constants/style/text_style.dart';
 import 'package:disiplean_clone/databases/audit_database.dart';
 import 'package:disiplean_clone/providers/setting_provider.dart';
 import 'package:disiplean_clone/providers/user_provider.dart';
+import 'package:disiplean_clone/screens/auditing/select_audit_date.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_box_widget.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_button_widget.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_scaffold.dart';
@@ -121,20 +122,20 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
 
       if (context.mounted) {
         EasyLoading.dismiss();
-        // ReusableSnackBar.show(context,
-        //     "Audit result saved successfully.", isSuccess: true);
-        // Navigator.pop(context);
-        /// navigate to splash screen
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (BuildContext context) => const SplashScreenTicket(
-              splashGif: 'assets/GIF/icons8-success.gif', ///<a target="_blank" href="https://icons8.com/icon/bOV6PUpxms3k/checkmark">Success</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-              splashText: 'Data audit berhasil disimpan',
-              source: 'audit',
-              title: 'Selamat!',
-            ),
-          ),
-        );
+        ReusableSnackBar.show(context,
+            "Audit result saved successfully.", isSuccess: true);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SelectDateAudit()));
+        // /// navigate to splash screen
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (BuildContext context) => const SplashScreenTicket(
+        //       splashGif: 'assets/GIF/icons8-success.gif', ///<a target="_blank" href="https://icons8.com/icon/bOV6PUpxms3k/checkmark">Success</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+        //       splashText: 'Data audit berhasil disimpan',
+        //       source: 'audit',
+        //       title: 'Selamat!',
+        //     ),
+        //   ),
+        // );
       }
     } catch (e) {
       if (context.mounted) {
@@ -380,14 +381,14 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                     style: lgBoldTextStyle,
                   )),
               /// comment section
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 20,
-                    bottom: 28,
-                    left: 26,
-                    right: 26
-                ),
-                child: SingleChildScrollView(
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 20,
+                      bottom: 28,
+                      left: 26,
+                      right: 26
+                  ),
                   child: Column(
                     children: [
                       Row(
@@ -415,6 +416,8 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                               padding: const EdgeInsets.only(left: 16),
                               child: TextField(
                                 controller: commentController,
+                                scrollPadding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).viewInsets.bottom),
                                 onChanged: updateCommentCount,
                                 maxLines: null,
                                 decoration: const InputDecoration(
