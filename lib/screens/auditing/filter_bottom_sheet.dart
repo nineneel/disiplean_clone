@@ -6,7 +6,12 @@ class FilterBottomSheet {
     required Function(String) onSelectFilter,
     required String selectedFilter,
   }) async {
-    return await showModalBottomSheet(
+    await showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20.0),
+        ),
+      ),
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
@@ -26,14 +31,16 @@ class FilterBottomSheet {
               ListTile(
                 title: const Text('Semua'),
                 onTap: () {
-                  onSelectFilter('Semua');
+                  selectedFilter = 'Semua';
+                  onSelectFilter(selectedFilter);
                   Navigator.pop(context);
                 },
               ),
               ListTile(
                 title: const Text('Sudah diaudit'),
                 onTap: () {
-                  onSelectFilter('Sudah diaudit');
+                  selectedFilter = 'Sudah diaudit';
+                  onSelectFilter(selectedFilter);
                   Navigator.pop(context);
                 },
                 // Add more filter options as needed
@@ -41,7 +48,8 @@ class FilterBottomSheet {
               ListTile(
                 title: const Text('Belum diaudit'),
                 onTap: () {
-                  onSelectFilter('Belum diaudit');
+                  selectedFilter = 'Belum diaudit';
+                  onSelectFilter(selectedFilter);
                   Navigator.pop(context);
                 },
               ),
@@ -50,5 +58,6 @@ class FilterBottomSheet {
         );
       },
     );
+    return selectedFilter;
   }
 }

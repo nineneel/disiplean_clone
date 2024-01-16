@@ -9,6 +9,7 @@ import 'package:disiplean_clone/widgets/reusable/reusable_box_widget.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_button_widget.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_scaffold.dart';
 import 'package:disiplean_clone/widgets/reusable/reusable_snackbar.dart';
+import 'package:disiplean_clone/widgets/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_iconpicker/Serialization/iconDataSerialization.dart';
@@ -120,9 +121,20 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
 
       if (context.mounted) {
         EasyLoading.dismiss();
-        ReusableSnackBar.show(context,
-            "Audit result saved successfully.", isSuccess: true);
-        Navigator.pop(context);
+        // ReusableSnackBar.show(context,
+        //     "Audit result saved successfully.", isSuccess: true);
+        // Navigator.pop(context);
+        /// navigate to splash screen
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) => const SplashScreenTicket(
+              splashGif: 'assets/GIF/icons8-success.gif', ///<a target="_blank" href="https://icons8.com/icon/bOV6PUpxms3k/checkmark">Success</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+              splashText: 'Data audit berhasil disimpan',
+              source: 'audit',
+              title: 'Selamat!',
+            ),
+          ),
+        );
       }
     } catch (e) {
       if (context.mounted) {
@@ -218,6 +230,7 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
     _getProvisionData();
     print('locationName = ${widget.locationName}');
     print('locationImage = ${widget.locationImage}');
+    print('print = ${calculateAnsweredQuestions() != _totalProvision}');
     super.initState();
   }
 
@@ -433,8 +446,8 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
       ),
       buttonBottomSheet: ReusableButtonWidget(
         label: "Simpan Penilaian",
-        disabled: (_totalProvision != _currentTotalProvision)
-            && selectedImage == null,
+        disabled: (calculateAnsweredQuestions() != _totalProvision)
+            || selectedImage == null,
         onPressed: _saveAuditData,
       ),
     );

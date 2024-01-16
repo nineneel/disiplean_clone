@@ -240,7 +240,6 @@ class _ListAuditLocationState extends State<ListAuditLocation> {
                             onSelectFilter: (filter) {
                               setState(() {
                                 resultFilter = filter;
-                                print('result filter = $resultFilter');
                               });
                             },
                             selectedFilter: resultFilter,
@@ -276,7 +275,7 @@ class _ListAuditLocationState extends State<ListAuditLocation> {
                   showFilterResult = scoreLocationIndex == null;
                 }
                 if (locationName.toLowerCase().contains(searchText)) {
-                  return (showFilterResult || resultFilter == 'Semua')
+                  return showFilterResult || resultFilter == 'Semua'
                       ? GestureDetector(
                           onTap: () {
                             if (scoreLocationIndex == null) {
