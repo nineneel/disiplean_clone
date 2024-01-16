@@ -41,15 +41,15 @@ class _ListAuditLocationState extends State<ListAuditLocation> {
   String resultFilter = 'Semua';
 
   void _getAllLocationData() {
-    _allLocationData = Provider.of<SettingProvider>(context, listen: true).settingData['location_setting']?['locations'] ?? {};
-    // _allLocationKeys = _allLocationData.keys.toList();
-    print('$_allLocationData');
+    _allLocationData = Provider.of<SettingProvider>(context, listen: true)
+        .settingData['location_setting']?['locations'] ?? {};
     if (widget.isChildLocation) {
       currentLocationName = _allLocationData[widget.currentLocationId]['name'];
       currentLocationTag = _allLocationData[widget.currentLocationId]['tag'];
-      _allLocationChildKeys = _allLocationData[widget.currentLocationId]['child_locations_id'] ?? [];
+      _allLocationChildKeys = _allLocationData[widget.currentLocationId]
+      ['child_locations_id'] ?? [];
       for (var locationKey in _allLocationChildKeys) {
-        bool addLocation = true; // TODO: use this value: _allLocationData[locationKey]['need_audit'] ?? false;
+        bool addLocation = true;
         if (addLocation) {
           _allCurrentLocationKeys.add(locationKey);
         }
@@ -57,7 +57,7 @@ class _ListAuditLocationState extends State<ListAuditLocation> {
     } else {
       _allCurrentLocationKeys = [];
       _allLocationData.forEach((key, value) {
-        bool addLocation = value['parent_location_id'] == null; // TODO: add this value && (value['need_audit'] ?? false);
+        bool addLocation = value['parent_location_id'] == null;
         if (addLocation) {
           _allCurrentLocationKeys.add(key);
         }
@@ -69,11 +69,14 @@ class _ListAuditLocationState extends State<ListAuditLocation> {
     String yearMonth = "${DateTime.now().year}_${DateTime.now().month}";
     Map<String, int?> updatedLocationScore = {};
     for (String locationId in _allCurrentLocationKeys) {
-      Map<String, int> locationScores = await AuditDatabase.getScoreAuditResultsForMonth(yearMonth: yearMonth, locationID: locationId);
+      Map<String, int> locationScores = await AuditDatabase
+          .getScoreAuditResultsForMonth(
+          yearMonth: yearMonth,
+          locationID: locationId
+      );
       if (locationScores.containsKey(locationId)) {
         int score = locationScores[locationId]!;
         updatedLocationScore[locationId] = score;
-        print('location score = ${score}');
       }
     }
     setState(() {

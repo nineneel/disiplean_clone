@@ -17,63 +17,40 @@ class AuditDatabase {
   }
 
   static Future<Map> saveAuditData({
-    required Map auditData,
     required String userKey,
     required String locationId,
     required double score,
     required File locationImage,
+    required String comment,
     required BuildContext context,
   }) async {
     Map response = {
       'success': true,
       "message": "",
     };
-
     try {
       DatabaseReference auditRef = auditRTDB.ref();
-
-      Map auditAssessment = {};
-
-      auditData.forEach((key, value) {
-        Map newProvision = {};
-        Map newSubProvision = {};
-        //
-        // value['sub_provision'].forEach((key, valueSub) {
-        //   if (valueSub['score'] == '1') validScore++;
-        //   totalProvision++;
-        //
-        //   newSubProvision[key] = value['score'];
-        // });
-
-        newProvision = {
-          'sub_provision': newSubProvision,
-        };
-
-        auditAssessment[key] = newProvision;
-      });
-
       String newAuditDataKey = "audit_${_generateNewId()}";
-      // Mengunggah gambar ke Firebase Storage dan mendapatkan URL
-      String imageUrl = await UploadAttachment().uploadPic(file: locationImage, context: context);
-      print('iimageUrl = $imageUrl');
+      String imageUrl = await UploadAttachment()
+          .uploadPic(file: locationImage, context: context); /// upload pic
       Map<String, dynamic> newAuditData = {
         newAuditDataKey: {
           'audited_by': userKey,
           'audited_at': ServerValue.timestamp,
           'location_id': locationId,
-          'audit_assessment': auditAssessment,
           'audit_score': score,
-          'loc_image' : imageUrl,
+          'loc_image': imageUrl,
+          'comment': comment,
         }
       };
 
-      String yearMonth = "${DateTime
-          .now()
-          .year}_${DateTime
-          .now()
-          .month}";
+      String yearMonth = "${DateTime.now().year}_${DateTime.now().month}";
 
-      await auditRef.child('audit_result').child(yearMonth).child('audits').update(newAuditData);
+      await auditRef
+          .child('audit_result')
+          .child(yearMonth)
+          .child('audits')
+          .update(newAuditData);
 
       response['success'] = true;
       response['message'] = "Save audit result success!";
@@ -98,7 +75,7 @@ class AuditDatabase {
         .orderByChild('location_id')
         .equalTo(locationID)
         .once();
-    print('audit DATA  =  ${auditData.snapshot.value}');
+
     Map<String, int> locationScores = {};
 
     if (auditData.snapshot.value != null) {
@@ -107,10 +84,7 @@ class AuditDatabase {
       auditMap.forEach((auditId, auditDetails) {
         String locationId = auditDetails['location_id'];
         int score = auditDetails['audit_score'];
-
-        if (locationId != null && score != null) {
-          locationScores[locationId] = score;
-        }
+        locationScores[locationId] = score;
       });
     }
 

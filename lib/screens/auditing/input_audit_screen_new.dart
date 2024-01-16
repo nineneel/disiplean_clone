@@ -40,13 +40,17 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
   List _auditDataKeys = [];
   int _totalProvision = 0;
   int _currentTotalProvision = 0;
+  TextEditingController commentController = TextEditingController();
+  int commentMax = 50;
+  int commentCount = 0;
+  String commentText = '';
 
   void _getProvisionData() {
-    _provisionData = Provider.of<SettingProvider>(context, listen: false).settingData['audit_setting']?['provisions'] ?? {};
+    _provisionData = Provider.of<SettingProvider>(context, listen: false)
+        .settingData['audit_setting']?['provisions'] ?? {};
 
     _provisionData.forEach((key, value) {
       Map subProvision = {};
-
       value['sub_provision'].forEach((key, subValue) {
         Map newSubProvision = {};
         newSubProvision['title'] = subValue['title'];
@@ -61,10 +65,8 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
         'title': value['title'],
         'sub_provision': subProvision,
       };
-
       _auditData[key] = newAuditData;
     });
-
     _auditDataKeys = _auditData.keys.toList();
   }
 
@@ -79,29 +81,57 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
     });
   }
 
-  void _saveAuditData() async {
-    EasyLoading.show(status: "save audit result..");
-    print('scoreAUdit = ${calculateScore()}');
-    Map response = await AuditDatabase.saveAuditData(
-      userKey: Provider.of<UserProvider>(context, listen: false).userData['key'],
-      auditData: _auditData,
-      locationId: widget.locationId,
-      score: calculateScore(),
-      context: context,
-      locationImage: selectedImage!,
-    );
+  // void _saveAuditData() async {
+  //   EasyLoading.show(status: "save audit result..");
+  //   print('scoreAUdit = ${calculateScore()}');
+  //   Map response = await AuditDatabase.saveAuditData(
+  //     userKey: Provider.of<UserProvider>(context, listen: false).userData['key'],
+  //     locationId: widget.locationId,
+  //     score: calculateScore(),
+  //     context: context,
+  //     locationImage: selectedImage!,
+  //     comment: commentText,
+  //   );
+  //
+  //   if (context.mounted) {
+  //     if (response['success']) {
+  //       EasyLoading.dismiss();
+  //
+  //     } else {
+  //       EasyLoading.dismiss();
+  //       ReusableSnackBar.show(context, response['message'], isSuccess: false);
+  //     }
+  //   }
+  // }
 
-    if (context.mounted) {
-      if (response['success']) {
+  void _saveAuditData() async {
+    EasyLoading.show(status: "Saving audit result..");
+    try {
+      await AuditDatabase.saveAuditData(
+        userKey: Provider
+            .of<UserProvider>(context, listen: false)
+            .userData['key'],
+        locationId: widget.locationId,
+        score: calculateScore(),
+        context: context,
+        locationImage: selectedImage!,
+        comment: commentText,
+      );
+
+      if (context.mounted) {
         EasyLoading.dismiss();
+        ReusableSnackBar.show(context,
+            "Audit result saved successfully.", isSuccess: true);
         Navigator.pop(context);
-        ReusableSnackBar.show(context, response['message']);
-      } else {
+      }
+    } catch (e) {
+      if (context.mounted) {
         EasyLoading.dismiss();
-        ReusableSnackBar.show(context, response['message'], isSuccess: false);
+        ReusableSnackBar.show(context, "$e", isSuccess: false);
       }
     }
   }
+
   // Function to pick an image from the device
   Future<void> _pickImage() async {
     showModalBottomSheet(
@@ -173,6 +203,13 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
     }
     double score = (correctAnsweredCount / _totalProvision) * 100;
     return score.ceilToDouble(); // round up score
+  }
+
+  void updateCommentCount(String text) {
+    setState(() {
+      commentText = text;
+      commentCount = text.length;
+    });
   }
 
 
@@ -329,13 +366,75 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                     "Belum ada ketentuan Audit!",
                     style: lgBoldTextStyle,
                   )),
+              /// comment section
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 20,
+                    bottom: 28,
+                    left: 26,
+                    right: 26
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Komentar',
+                          ),
+                          Text(
+                            '$commentCount/$commentMax',
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      /// comment container
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: TextField(
+                                controller: commentController,
+                                onChanged: updateCommentCount,
+                                maxLines: null,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Tulis komentar di sini',
+                                  hintStyle: TextStyle(
+                                    fontSize: 14
+                                  )
+                                ),
+                              ),
+                            ),
+                          ),
+                          if (commentCount > commentMax)
+                            const Padding(
+                              padding: EdgeInsets.only(top: 6),
+                              child: Text(
+                                'Melebihi batas karakter',
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
       buttonBottomSheet: ReusableButtonWidget(
         label: "Simpan Penilaian",
-        disabled: _totalProvision != _currentTotalProvision,
+        disabled: (_totalProvision != _currentTotalProvision)
+            && selectedImage == null,
         onPressed: _saveAuditData,
       ),
     );
@@ -421,12 +520,15 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                                     horizontal: 8,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: greyColor,
+                                    color: subProvisionScore != null && subProvisionScore == '1' ? const Color(0xFFCCFFCE) : greyColor,
                                     borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                      color: subProvisionScore != null && subProvisionScore == '1' ? const Color(0xFF048519) : greyColor,
+                                    )
                                   ),
                                   child: Icon(
                                     Icons.check_rounded,
-                                    color: subProvisionScore != null && subProvisionScore == '1' ? darkColor : shadowColor,
+                                    color: subProvisionScore != null && subProvisionScore == '1' ?  const Color(0xFF048519): shadowColor,
                                     size: 24,
                                   ),
                                 ),
@@ -445,12 +547,15 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                                     horizontal: 8,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: greyColor,
+                                    color: subProvisionScore != null && subProvisionScore == '0' ? const Color(0xFFFFE8E8): greyColor,
                                     borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                      color: subProvisionScore != null && subProvisionScore == '0' ? Colors.red : shadowColor,
+                                    )
                                   ),
                                   child: Icon(
                                     Icons.close_rounded,
-                                    color: subProvisionScore != null && subProvisionScore == '0' ? darkColor : shadowColor,
+                                    color: subProvisionScore != null && subProvisionScore == '0' ? Colors.red : shadowColor,
                                     size: 24,
                                   ),
                                 ),

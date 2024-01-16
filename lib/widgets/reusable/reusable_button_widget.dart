@@ -33,10 +33,10 @@ class ReusableButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         shadowColor: Colors.transparent,
-        backgroundColor: type == ButtonType.secondary ? backgroundColor : greyColor,
+        backgroundColor: type == ButtonType.secondary ? backgroundColor :  const Color(0xFF6D9773),
         foregroundColor: darkColor,
         side: BorderSide(
-          color: type == ButtonType.secondary ? darkColor : greyColor,
+          color: type == ButtonType.secondary ? darkColor :  const Color(0xFF6D9773),
           width: 1,
         ),
       ),
@@ -49,7 +49,7 @@ class ReusableButtonWidget extends StatelessWidget {
           : Text(
               label ?? "-",
               style: mdBoldTextStyle.copyWith(
-                color: disabled ? shadowColor : darkColor,
+                color: disabled ? shadowColor : Colors.white,
                 fontSize: type == ButtonType.small ? 12 : null,
               ),
               textAlign: TextAlign.center,

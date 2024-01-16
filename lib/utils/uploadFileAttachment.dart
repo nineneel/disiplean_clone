@@ -18,7 +18,10 @@ class FirebaseApi {
 class UploadAttachment {
   static UploadTask? task;
 
-  Future uploadPic({String? temuanId, required File file, required BuildContext context, String type = ''}) async {
+  Future uploadPic({
+    required File file,
+    required BuildContext context,
+    }) async {
     final fileName = basename(file.path);
     String destination = '';
     destination = 'images/$fileName';

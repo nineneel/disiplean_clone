@@ -27,53 +27,36 @@ class _SelectDateAuditState extends State<SelectDateAudit> {
   DateTime? _selectedStartDate;
 
   /// set date base on selected week
-  DateTime _getSelectedStartDate(int week) {
+  DateTime getSelectedStartDate(int week) {
     /// get current date
     final DateTime now = DateTime.now();
-
-    /// define total week on this month
     int totalWeek = now.endOfMonth.getWeek - now.startOfMonth.getWeek;
-
-    /// Step 0 - if total week on this month is only 4 but user select lastest week, then week will be decrease by one
     if (week == 4 && totalWeek <= 4) week = 3;
-
-    /// Step 1 - get the first day of month, and first day on the week
-    /// step 2 - add 1 day to be on monday
-    /// step 3 - if the first day on the month is monday dont next the week
-    DateTime startDateOfFirstWeek = now.startOfMonth.startOfWeek.addDays(1).addWeeks(now.startOfMonth.weekday == 1 ? 0 : 1);
-
-    /// step 4 -  select start date base on the selected week
+    DateTime startDateOfFirstWeek = now.startOfMonth.startOfWeek.addDays(1)
+        .addWeeks(now.startOfMonth.weekday == 1 ? 0 : 1);
     DateTime selectedStartTimeOfWeek = startDateOfFirstWeek.addWeeks(week);
-
-    // /// step 5 - if $now is greater than $selectedStartTimeOfWeek, then week will be set to week of the next month
-    // if (now.compareTo(selectedStartTimeOfWeek) >= 0) {
-    //   selectedStartTimeOfWeek =
-    //       selectedStartTimeOfWeek.addWeeks(totalWeek);
-    // }
-
     return selectedStartTimeOfWeek;
   }
 
   /// Set the initial selected date based on the saved week.
-  void _setInitialSelectedDate(week) {
+  void setInitialSelectedDate(week) {
     // week -1 mean no week selected
     if (week != -1) {
       _isWeekSelected = true;
-      _selectedStartDate = _getSelectedStartDate(week);
+      _selectedStartDate = getSelectedStartDate(week);
       setState(() {
-        _auditScheduleBtn = "${DateFormat('d MMM').format(_selectedStartDate!)} - ${DateFormat('d MMM yyyy').format(_selectedStartDate!.addDays(6))}";
+        _auditScheduleBtn = "${DateFormat('d MMM').format(_selectedStartDate!)} "
+            "- ${DateFormat('d MMM yyyy').format(_selectedStartDate!.addDays(6))}";
         _dateStart = _selectedStartDate!;
         _dateEnd = _selectedStartDate!.addDays(6);
-        print('dateState di audit = $_dateStart');
-        print('dateEnd di audit = $_dateEnd');
       });
     }
   }
 
-  /// Calculate the remaining days until the selected audit date.
-  int _calculateRemainingDays() {
+  /// Calculate the remaining days
+  int calculateRemainingDays() {
     if (_dateEnd == null) {
-      return 0; // Jika _dateEnd belum diatur, kembalikan 0
+      return 0;
     } else {
       final DateTime now = DateTime.now();
       final Duration remainingDuration = _dateEnd!.difference(now);
@@ -85,8 +68,7 @@ class _SelectDateAuditState extends State<SelectDateAudit> {
   void initState() {
     Future(() async {
       _week = await SettingDatabase.getAuditWeek(context: context);
-      print('week di audit = $_week');
-      _setInitialSelectedDate(_week);
+      setInitialSelectedDate(_week);
     });
     super.initState();
   }
@@ -160,7 +142,7 @@ class _SelectDateAuditState extends State<SelectDateAudit> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '${_calculateRemainingDays()} hari',
+                    '${calculateRemainingDays()} hari',
                     style: smNormalTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
                   ),
                 ),
