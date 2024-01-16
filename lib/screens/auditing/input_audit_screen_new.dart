@@ -48,8 +48,7 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
   String commentText = '';
 
   void _getProvisionData() {
-    _provisionData = Provider.of<SettingProvider>(context, listen: false)
-        .settingData['audit_setting']?['provisions'] ?? {};
+    _provisionData = Provider.of<SettingProvider>(context, listen: false).settingData['audit_setting']?['provisions'] ?? {};
 
     _provisionData.forEach((key, value) {
       Map subProvision = {};
@@ -110,9 +109,7 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
     EasyLoading.show(status: "Saving audit result..");
     try {
       await AuditDatabase.saveAuditData(
-        userKey: Provider
-            .of<UserProvider>(context, listen: false)
-            .userData['key'],
+        userKey: Provider.of<UserProvider>(context, listen: false).userData['key'],
         locationId: widget.locationId,
         score: calculateScore(),
         context: context,
@@ -122,8 +119,7 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
 
       if (context.mounted) {
         EasyLoading.dismiss();
-        ReusableSnackBar.show(context,
-            "Audit result saved successfully.", isSuccess: true);
+        ReusableSnackBar.show(context, "Audit result saved successfully.", isSuccess: true);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SelectDateAudit()));
         // /// navigate to splash screen
         // Navigator.of(context).push(
@@ -184,7 +180,6 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
     });
   }
 
-
   Future pickImageFromCamera() async {
     final returnedImage = await ImagePicker().pickImage(source: ImageSource.camera);
     if (returnedImage == null) return;
@@ -225,7 +220,6 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
     });
   }
 
-
   @override
   void initState() {
     _getProvisionData();
@@ -249,13 +243,7 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                 child: Container(
                   width: double.infinity,
                   height: 90,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.black
-                    )
-                  ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Colors.white, border: Border.all(color: Colors.black)),
                   child: Row(
                     children: [
                       ClipRRect(
@@ -270,10 +258,7 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                       Expanded(
                         child: Text(
                           widget.locationName,
-                          style: smNormalTextStyle.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700
-                          ),
+                          style: smNormalTextStyle.copyWith(fontSize: 16, fontWeight: FontWeight.w700),
                         ),
                       )
                     ],
@@ -290,12 +275,11 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                     width: double.infinity,
                     height: 250,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.black,
-                      )
-                    ),
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Colors.black,
+                        )),
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -312,19 +296,9 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
-                                Icons.camera_alt,
-                                size: 48,
-                                color: Colors.black
-                              ),
+                              const Icon(Icons.camera_alt, size: 48, color: Colors.black),
                               const SizedBox(height: 8),
-                              Text(
-                                'Pick Image',
-                                style: smBoldTextStyle.copyWith(
-                                  color: Colors.black,
-                                  fontSize: 18
-                                )
-                              ),
+                              Text('Pick Image', style: smBoldTextStyle.copyWith(color: Colors.black, fontSize: 18)),
                             ],
                           ),
                       ],
@@ -338,17 +312,14 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                   children: [
                     Text(
                       'Poin terisi',
-                      style: smNormalTextStyle.copyWith(
-                        fontSize: 14
-                      ),
+                      style: smNormalTextStyle.copyWith(fontSize: 14),
                     ),
                     const SizedBox(
                       width: 13,
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(5),
                         color: Colors.grey.shade200,
                       ),
                       child: Padding(
@@ -360,7 +331,7 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                         ),
                         child: Text(
                           '${calculateAnsweredQuestions()}/'
-                              '$_totalProvision',
+                          '$_totalProvision',
                         ),
                       ),
                     ),
@@ -369,26 +340,23 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
               ),
               _auditDataKeys.isNotEmpty
                   ? ListView.builder(
-                shrinkWrap: true,
-                                itemCount: _auditDataKeys.length,
-                                itemBuilder: (context, index) {
-                  return _buildProvisionBoxWidget(index);
-                                },
-                              )
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _auditDataKeys.length,
+                      itemBuilder: (context, index) {
+                        return _buildProvisionBoxWidget(index);
+                      },
+                    )
                   : Center(
-                  child: Text(
-                    "Belum ada ketentuan Audit!",
-                    style: lgBoldTextStyle,
-                  )),
+                      child: Text(
+                      "Belum ada ketentuan Audit!",
+                      style: lgBoldTextStyle,
+                    )),
+
               /// comment section
               SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 20,
-                      bottom: 28,
-                      left: 26,
-                      right: 26
-                  ),
+                  padding: const EdgeInsets.only(top: 20, bottom: 28, left: 26, right: 26),
                   child: Column(
                     children: [
                       Row(
@@ -403,6 +371,7 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                         ],
                       ),
                       const SizedBox(height: 10),
+
                       /// comment container
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -416,17 +385,10 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                               padding: const EdgeInsets.only(left: 16),
                               child: TextField(
                                 controller: commentController,
-                                scrollPadding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                                scrollPadding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                                 onChanged: updateCommentCount,
                                 maxLines: null,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Tulis komentar di sini',
-                                  hintStyle: TextStyle(
-                                    fontSize: 14
-                                  )
-                                ),
+                                decoration: const InputDecoration(border: InputBorder.none, hintText: 'Tulis komentar di sini', hintStyle: TextStyle(fontSize: 14)),
                               ),
                             ),
                           ),
@@ -449,8 +411,7 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
       ),
       buttonBottomSheet: ReusableButtonWidget(
         label: "Simpan Penilaian",
-        disabled: (calculateAnsweredQuestions() != _totalProvision)
-            || selectedImage == null,
+        disabled: (calculateAnsweredQuestions() != _totalProvision) || selectedImage == null,
         onPressed: _saveAuditData,
       ),
     );
@@ -496,7 +457,7 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
               const SizedBox(height: 12),
 
               if (subProvisionList.isNotEmpty)
-              // Sub provisions
+                // Sub provisions
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -536,15 +497,14 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                                     horizontal: 8,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: subProvisionScore != null && subProvisionScore == '1' ? const Color(0xFFCCFFCE) : greyColor,
-                                    borderRadius: BorderRadius.circular(6),
-                                    border: Border.all(
-                                      color: subProvisionScore != null && subProvisionScore == '1' ? const Color(0xFF048519) : greyColor,
-                                    )
-                                  ),
+                                      color: subProvisionScore != null && subProvisionScore == '1' ? const Color(0xFFCCFFCE) : greyColor,
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(
+                                        color: subProvisionScore != null && subProvisionScore == '1' ? const Color(0xFF048519) : greyColor,
+                                      )),
                                   child: Icon(
                                     Icons.check_rounded,
-                                    color: subProvisionScore != null && subProvisionScore == '1' ?  const Color(0xFF048519): shadowColor,
+                                    color: subProvisionScore != null && subProvisionScore == '1' ? const Color(0xFF048519) : shadowColor,
                                     size: 24,
                                   ),
                                 ),
@@ -563,12 +523,11 @@ class _InputAuditScreenNewState extends State<InputAuditScreenNew> {
                                     horizontal: 8,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: subProvisionScore != null && subProvisionScore == '0' ? const Color(0xFFFFE8E8): greyColor,
-                                    borderRadius: BorderRadius.circular(6),
-                                    border: Border.all(
-                                      color: subProvisionScore != null && subProvisionScore == '0' ? Colors.red : shadowColor,
-                                    )
-                                  ),
+                                      color: subProvisionScore != null && subProvisionScore == '0' ? const Color(0xFFFFE8E8) : greyColor,
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(
+                                        color: subProvisionScore != null && subProvisionScore == '0' ? Colors.red : shadowColor,
+                                      )),
                                   child: Icon(
                                     Icons.close_rounded,
                                     color: subProvisionScore != null && subProvisionScore == '0' ? Colors.red : shadowColor,
